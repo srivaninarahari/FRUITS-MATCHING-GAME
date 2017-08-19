@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FRUITS MATCHING GAME</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script type="text/javascript" src="http://www.pureexample.com/js/lib/jquery.ui.touch-punch.min.js"></script>
+    
+<script>
+        /**
+* Drag and drop quiz intended for an iBooks widget
+*/
+
+$(document).ready( function() {
+    //initialize the quiz options
+    var answersLeft = [];
+    $('.quiz-wrapper').find('li.option').each( function(i) {
+      var $this = $(this);
+      var answerValue = $this.data('target');
+      var $target = $('.answers .target[data-accept="'+answerValue+'"]');
+      var labelText = $this.html();
+      $this.draggable( {
+        revert: "invalid",
+        containment: ".quiz-wrapper"
+      });
+     
+      if ( $target.length > 0 ) {
+      $target.droppable( {
+          accept: 'li.option[data-target="'+answerValue+'"]',
+          drop: function( event, ui ) {
+            $this.draggable('destroy');
+            $target.droppable('destroy');
+            $this.html('&nbsp;');
+            $target.html(labelText);
+            answersLeft.splice( answersLeft.indexOf( answerValue ), 1 );
+          }
+      });
+      answersLeft.push(answerValue);
+      } else { }
+     });
+     $('.quiz-wrapper button[type="submit"]').click( function() {
+         if ( answersLeft.length > 0 ) {
+              $('.lightbox-bg').show();
+        $('.status.deny').show();
+        $('.lightbox-bg').click( function() {
+                $('.lightbox-bg').hide();
+          $('.status.deny').hide();
+          $('.lightbox-bg').unbind('click');
+        });
+         } else {
+              $('.lightbox-bg').show();
+        $('.status.confirm').show();
+         }
+     });
+  });
+  
+    </script>
+    
+</head>
+<body>
+    <!--- next level -->
+       
+<div class="quiz-wrapper">
+        <h1 class="question-description">   FRUITS MATCHING GAME </h1>
+        <p class="question-description">DROP FRUITS IN BOXES</p>
+        <ul class="options">
+            <li class="title">Options</li>
+            <li class="option" data-target="PineApple"style="width:80px"><img src="pineapple.jpg"style="width:80px"></li>
+            <li class="option" data-target="Apple" style="width:80px"><img src="apple.jpg"style="width:80px"></li>
+            <li class="option" data-target="Grapes"style="width:80px"><img src="grapes.jpg"style="width:80px"></li>
+            <li class="option" data-target="Orange"style="width:80px"><img src="orange.jpg"style="width:80px"></li>
+            
+        </ul>
+   
+    <div class="answers">
+            <ol>
+                <li><span class="target" data-accept="Apple">&nbsp;</span>Apple</li>
+                <li><span class="target" data-accept="Orange">&nbsp;</span>Orange</li>
+                <li><span class="target" data-accept="Grapes">&nbsp;</span>Grapes</li>
+                <li><span class="target" data-accept="PineApple">&nbsp;</span>PineApple</li>
+                  </ol>
+        </div>
+        <button type="submit" value="submit">Submit</button>
+        <div class="lightbox-bg"></div>
+        <div class="status confirm">
+          <p>All Answers Answered</p>
+        </div>
+        <div class="status deny">
+          <p>Answers Remain</p>
+        </div>
+    </div>
+    
+</body>
+</html>
